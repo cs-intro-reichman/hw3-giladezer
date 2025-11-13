@@ -44,7 +44,7 @@ public class LoanCalc {
 		iterationCounter = 0;
 		double payment = 0.0;
 		double balance = endBalance(loan, rate, n, payment);
-		while (balance > 0){
+		while (loan - payment * n > 0){
 			payment += epsilon;
 			balance = endBalance(loan, rate, n, payment);
 			iterationCounter++;
@@ -63,7 +63,7 @@ public class LoanCalc {
 		double high = loan * Math.pow((1 + rate / 100), n) / n;
 		double payment = (low + high) / 2;
 		double balance = endBalance(loan, rate, n, payment);
-		while (Math.abs(balance) > epsilon){
+		while (loan - payment * n > epsilon){
 			if (balance > 0){
 				low = payment;
 			}else{
