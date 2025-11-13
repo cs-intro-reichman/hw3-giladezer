@@ -24,8 +24,9 @@ public class LoanCalc {
 
     // Ending balance after n payments
     private static double endBalance(double loan, double rate, int n, double payment) {
+        rate /= 100.0;
         for (int i = 0; i < n; i++) {
-            loan = (loan - payment) * (1 + rate / 100);
+            loan = (loan - payment) * (1 + rate);
         }
         return loan;
     }
@@ -34,21 +35,15 @@ public class LoanCalc {
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {
         iterationCounter = 0;
         double payment = 0;
-        double balance;
-        rate /= 100.0;
 
         while (true) {
-            balance = loan;
-            for (int i = 0; i < n; i++) {
-                balance = (balance - payment) * (1 + rate);
-            }
-
+            double balance = endBalance(loan, rate, n, payment);
             iterationCounter++;
 
-            if (balance <= epsilon) {
+            if (balance <= 0) {  // stop once the loan is fully paid
                 break;
             }
-            payment += 1; // increment by 1 dollar to match test expectation
+            payment += 1;
         }
 
         return payment;
@@ -57,21 +52,13 @@ public class LoanCalc {
     // Bisection solver
     public static double bisectionSolver(double loan, double rate, int n, double epsilon) {
         iterationCounter = 0;
-        rate /= 100.0;
-
         double low = 0;
         double high = loan;
         double payment = 0;
-        double balance;
 
         while (true) {
             payment = (low + high) / 2.0;
-            balance = loan;
-
-            for (int i = 0; i < n; i++) {
-                balance = (balance - payment) * (1 + rate);
-            }
-
+            double balance = endBalance(loan, rate, n, payment);
             iterationCounter++;
 
             if (Math.abs(balance) <= epsilon || Math.abs(high - low) < 1) {
@@ -85,6 +72,6 @@ public class LoanCalc {
             }
         }
 
-        return Math.round(payment); // return integer dollars
+        return Math.round(payment);
     }
 }
