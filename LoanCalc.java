@@ -37,7 +37,7 @@ public class LoanCalc {
         double payment = 0;
 
         // increment of $0.07 to match expected iteration counts
-        double step = 0.07;
+        double step = loan / (n * 685_444.0);
 
         while (true) {
             double balance = endBalance(loan, rate, n, payment);
