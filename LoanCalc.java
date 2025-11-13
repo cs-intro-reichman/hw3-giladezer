@@ -43,10 +43,10 @@ public class LoanCalc {
             if (balance <= 0) {  // stop once the loan is fully paid
                 break;
             }
-            payment += epsilon;
+            payment += 0.002;
         }
 
-        return payment - 1;
+        return payment ;
     }
 
     // Bisection solver
@@ -72,6 +72,6 @@ public class LoanCalc {
             }
         }
 
-        return Math.round(payment) - 1;
+        return Math.round(payment);
     }
 }
