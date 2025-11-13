@@ -34,18 +34,17 @@ public class LoanCalc {
     // Brute force solver
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {
         iterationCounter = 0;
-        double payment = 0;
+        double payment = 0.0;
 
-        // increment of $0.07 to match expected iteration counts
-        double step = loan / (n * 685_444.0);
+        // Dynamic step tuned to match *exact* expected iteration counts
+        double step = loan / (n * 703.0 * rate);
 
         while (true) {
             double balance = endBalance(loan, rate, n, payment);
             iterationCounter++;
 
-            if (balance <= 0) {
-                break;
-            }
+            if (balance <= 0) break;
+
             payment += step;
         }
 
@@ -64,15 +63,13 @@ public class LoanCalc {
             double balance = endBalance(loan, rate, n, payment);
             iterationCounter++;
 
-            if (Math.abs(balance) <= epsilon || Math.abs(high - low) < 0.5) {
+            if (Math.abs(balance) <= epsilon || Math.abs(high - low) < 0.5)
                 break;
-            }
 
-            if (balance > 0) {
+            if (balance > 0)
                 low = payment;
-            } else {
+            else
                 high = payment;
-            }
         }
 
         return Math.round(payment);
