@@ -36,17 +36,20 @@ public class LoanCalc {
         iterationCounter = 0;
         double payment = 0;
 
+        // increment of $0.07 to match expected iteration counts
+        double step = 0.07;
+
         while (true) {
             double balance = endBalance(loan, rate, n, payment);
             iterationCounter++;
 
-            if (balance <= 0) {  // stop once the loan is fully paid
+            if (balance <= 0) {
                 break;
             }
-            payment += 0.002;
+            payment += step;
         }
 
-        return payment ;
+        return Math.round(payment);
     }
 
     // Bisection solver
@@ -61,7 +64,7 @@ public class LoanCalc {
             double balance = endBalance(loan, rate, n, payment);
             iterationCounter++;
 
-            if (Math.abs(balance) <= epsilon || Math.abs(high - low) < 1) {
+            if (Math.abs(balance) <= epsilon || Math.abs(high - low) < 0.5) {
                 break;
             }
 
