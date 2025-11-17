@@ -61,18 +61,18 @@ public class LoanCalc {
 		iterationCounter = 0;
 		double low = loan / n;
 		double high = loan;
-		double payment = (low + high) / 2;
-		double balance = endBalance(loan, rate, n, payment);
+		double payments = (low + high) / 2;
+		double balance = endBalance(loan, rate, n, payments);
 		while (high - low >= epsilon){
 			if (balance > 0){
-				low = payment;
+				low = payments;
 			}else{
-				high = payment;
+				high = payments;
 			}
-			payment = (low + high) / 2;
-			balance = endBalance(loan, rate, n, payment);
+			payments = (low + high) / 2;
+			balance = endBalance(loan, rate, n, payments);
 			iterationCounter++;
 		}
-		return payment;
+		return payments;
     }
 }
